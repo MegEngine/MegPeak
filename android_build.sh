@@ -4,6 +4,7 @@ set -e
 BUILD_TYPE=Release
 ARCH=arm64-v8a
 OPENCL=OFF
+ALL_BENCHMARK=OFF
 ARCH_LIST="arm64-v8a armeabi-v7a"
 
 READLINK=readlink
@@ -15,12 +16,13 @@ function usage() {
     echo "available args detail:"
     echo "-m : machine arch(arm64-v8a, armeabi-v7a)"
     echo "-l : enable build with opencl"
+    echo "-a : enable all benchmark"
     echo "-h : show usage"
     echo "example: $0 -m armeabi-v7a"
     exit -1
 }
 
-while getopts "lhm:" arg
+while getopts "lhm:a" arg
 do
     case $arg in
         m)
@@ -35,6 +37,10 @@ do
             echo "show usage"
             usage
             exit 0
+            ;;
+        a)
+            echo "build with all benchmark"
+            ALL_BENCHMARK=ON
             ;;
     esac
 done
@@ -67,7 +73,8 @@ function cmake_build() {
         -DANDROID_NDK="$NDK_ROOT" \
         -DANDROID_ABI=$BUILD_ABI \
         -DANDROID_NATIVE_API_LEVEL=$BUILD_NATIVE_LEVEL \
-        -DMEGPEAK_ENABLE_OPENCL=${OPENCL}
+        -DMEGPEAK_ENABLE_OPENCL=${OPENCL} \
+        -DMEGPEAK_ENABLE_ALL_BENCHMARK=${ALL_BENCHMARK}
 
     ninja ${Target}
 }

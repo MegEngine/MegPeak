@@ -10,13 +10,14 @@
  */
 
 #pragma once
-#include <chrono>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <chrono>
 #include <cmath>
-#include <string>
-#include <iostream>
 #include <functional>
+#include <iostream>
+#include <malloc.h>
+#include <string>
 
 namespace megpeak {
 constexpr static uint32_t RUNS = 800000;
@@ -89,22 +90,36 @@ inline static float get_relative_diff(float lhs, float rhs) {
  */
 inline static void benchmark(std::function<int()> throughtput_func,
                              std::function<int()> latency_func,
-                             const char* inst, size_t inst_simd = 4) {
+                             const char* inst, size_t inst_simd = 4,
+                             std::string msg = "") {
     Timer timer;
     auto runs = throughtput_func();
     float throuphput_used = timer.get_nsecs() / runs;
     timer.reset();
     runs = latency_func();
     float latency_used = timer.get_nsecs() / runs;
-    printf("%s throughput: %f ns %f GFlops latency: %f ns\n", inst,
-           throuphput_used, 1.f / throuphput_used * inst_simd, latency_used);
+    printf("%s throughput: %f ns %f GFlops latency: %f ns :%s\n", inst,
+           throuphput_used, 1.f / throuphput_used * inst_simd, latency_used,
+           msg.c_str());
 }
 
 #define UNROLL_RAW5(cb, v0, a...) \
     cb(0, ##a) cb(1, ##a) cb(2, ##a) cb(3, ##a) cb(4, ##a)
+
+#define UNROLL_RAW8(cb, v0, a...) \
+    UNROLL_RAW5(cb, v0, ##a)      \
+    cb(5, ##a) cb(6, ##a) cb(7, ##a)
+
+#define UNROLL_RAW9(cb, v0, a...) \
+    UNROLL_RAW5(cb, v0, ##a)      \
+    cb(5, ##a) cb(6, ##a) cb(7, ##a) cb(8, ##a)
+
 #define UNROLL_RAW10(cb, v0, a...) \
     UNROLL_RAW5(cb, v0, ##a)       \
     cb(5, ##a) cb(6, ##a) cb(7, ##a) cb(8, ##a) cb(9, ##a)
+#define UNROLL_RAW15(cb, v0, a...) \
+    UNROLL_RAW10(cb, v0, ##a)      \
+    cb(10, ##a) cb(11, ##a) cb(12, ##a) cb(13, ##a) cb(14, ##a)
 #define UNROLL_RAW20(cb, v0, a...)                                          \
     UNROLL_RAW10(cb, v0, ##a)                                               \
     cb(10, ##a) cb(11, ##a) cb(12, ##a) cb(13, ##a) cb(14, ##a) cb(15, ##a) \
@@ -134,5 +149,19 @@ void armv7();
 void x86_avx();
 void x86_sse();
 }  // namespace megpeak
+namespace {
+/**
+ * @brief Get the mem align64 object, only for single thread
+ *
+ * @return void*
+ */
+static inline void* get_mem_align64() {
+    static void* mem_algn64 = nullptr;
+    if (mem_algn64 == nullptr) {
+        mem_algn64 = memalign(64, 2048);
+    }
+    return mem_algn64;
+}
+}  // namespace
 
 // vim: syntax=cpp.doxygen

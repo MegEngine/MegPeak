@@ -8,6 +8,7 @@ message(${PROJECT_SOURCE_DIR})
 message(${CMAKE_CURRENT_SOURCE_DIR})
 
 option(MEGPEAK_ENABLE_OPENCL "Build MegPeak with OpenCL." OFF)
+option(MEGPEAK_ENABLE_ALL_BENCHMARK "Build MegPeak with all benchmark." OFF)
 
 if(CMAKE_TOOLCHAIN_FILE)
     message(STATUS "cross compile MegPeak.")
@@ -61,6 +62,11 @@ if(MEGPEAK_ENABLE_OPENCL)
     add_subdirectory(opencl-stub)
     target_include_directories(megpeak PUBLIC ${PROJECT_SOURCE_DIR}/opencl-stub/include/)
     target_link_libraries(megpeak OpenCL)
+endif()
+
+if(MEGPEAK_ENABLE_ALL_BENCHMARK)
+    set(CMAKE_CXX_FLAGS " -DMEGPEAK_WITH_ALL_BENCHMARK=1 ${CMAKE_CXX_FLAGS}")
+    message(STATUS "megpeak build with all benchmark.")
 endif()
 
 if(UNIX)
