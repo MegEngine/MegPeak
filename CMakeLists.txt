@@ -34,8 +34,6 @@ message(STATUS "CONFIG MGEPEAK_ARCH TO ${MGEPEAK_ARCH}")
 
 file(GLOB_RECURSE SRC src/*.cpp src/*.h )
 
-message(STATUS "source include ${SRC}")
-
 add_executable(megpeak ${SRC})
 target_include_directories(megpeak PUBLIC ${PROJECT_SOURCE_DIR})
 
