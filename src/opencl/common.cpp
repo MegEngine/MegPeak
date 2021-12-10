@@ -1,9 +1,12 @@
 /**
- * \file src/opencl/common.cpp
+ * MegPeaK is Licensed under the Apache License, Version 2.0 (the "License")
  *
- * \brief This is benchmark for MegPeak
+ * Copyright (c) 2021-2021 Megvii Inc. All rights reserved.
  *
- * \copyright Copyright (c) 2019-2019 Megvii Inc. All rights reserved.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT ARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.
  */
 
 #ifdef MEGPEAK_WITH_OPENCL

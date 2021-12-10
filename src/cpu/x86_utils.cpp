@@ -1,10 +1,14 @@
 /**
- * \file src/cpu/x86_utils.cpp
+ * MegPeaK is Licensed under the Apache License, Version 2.0 (the "License")
  *
- * This file is part of MegPeak.
+ * Copyright (c) 2021-2021 Megvii Inc. All rights reserved.
  *
- * \copyright Copyright (c) 2019-2019 Megvii Inc. All rights reserved.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT ARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.
  */
+
 #include "src/cpu/x86_utils.h"
 
 #if MEGPEAK_X86
