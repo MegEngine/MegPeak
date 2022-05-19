@@ -8,6 +8,7 @@ MegPeak can do:
 * Instruction delay
 * Memory peak bandwidth
 * Peak bandwidth of arbitrary instruction combination
+
 Although some of the above information can be obtained by querying the data sheet of the chip, and with guidance the theoretical the peak performance
 can be computed, but in many cases, the detail performance documents of the target processor cannot be obtained.
 In addition, the result through megpeak is more direct and accurate, and it can test the peak bandwidth of arbitrary instruction combination
