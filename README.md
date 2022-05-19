@@ -2,6 +2,16 @@
 Megpack is a tool for testing processor peak computation, now support
 arm, x86 and GPU driven by OpenCL processor.
 
+## MegPeak can do
+MegPeak can do:
+* Peak bandwidth of instruction
+* Instruction delay
+* Memory peak bandwidth
+* Peak bandwidth of arbitrary instruction combination
+Although some of the above information can be obtained by querying the data sheet of the chip, and with guidance the theoretical the peak performance
+can be computed, but in many cases, the detail performance documents of the target processor cannot be obtained.
+In addition, the result through megpeak is more direct and accurate, and it can test the peak bandwidth of arbitrary instruction combination
+
 ## BUILD
 MegPeak only support [Cmake](https://cmake.org/) build system and require Cmake version upper than 3.15.2, you can compiler the MegPeak fellow the step:
 
