@@ -58,3 +58,9 @@ if you compiler the project and get the megpeak, next you can copy or set the me
     ```bash
     ./megpeak -d cpu -i 0
      ```
+
+### Acknowledgement
+OpenCL in MegPeak referenced the [clpeak](https://github.com/krrishnarraj/clpeak) project
+
+### License
+[Apache-2.0](https://github.com/MegEngine/MegPeak/blob/main/LICENSE)
