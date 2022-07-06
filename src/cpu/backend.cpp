@@ -5,8 +5,8 @@
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied.
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  */
 
 #include <sched.h>
@@ -18,8 +18,16 @@
 #include <unistd.h>
 #include <memory>
 
-#include "src/cpu/common.h"
+#ifdef __APPLE__
+#include <mach/mach.h>
+#include <mach/mach_host.h>
+#else
+#include <sched.h>
+#include <sys/sysinfo.h>
+#endif
+
 #include "src/backend.h"
+#include "src/cpu/common.h"
 
 using namespace megpeak;
 namespace {
@@ -46,16 +54,18 @@ uint8_t bandwidth() {
 }
 
 void cpu_set_affinity(int dev_id) {
+#if defined(__APPLE__)
+#pragma message("set_cpu_affinity not enabled on apple platform")
+    printf("cpu core affinity is not usable in apple os\n");
+#else
     cpu_set_t cst;
     CPU_ZERO(&cst);
     CPU_SET(dev_id, &cst);
     sched_setaffinity(0, sizeof(cst), &cst);
+#endif
 }
 
 void get_cpu_info() {
-    // cpu_set_t cst;
-    // CPU_ZERO(&cst);
-    // sched_getaffinity(0, sizeof(cst), &cst);
     size_t cpu_num = sysconf(_SC_NPROCESSORS_ONLN);
     printf("there are %zu cores\n", cpu_num);
 }
