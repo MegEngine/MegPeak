@@ -59,6 +59,16 @@ If you compile the project and get the megpeak, next you can copy or set the meg
     ./megpeak -d cpu -i 0
     ```
 
+### GFlops test results for different CPUs
+| CPU | Architecture | Frequence(GHz) | GFlops | GFlops/Frequence |
+| :---: | :------------: | :--------------: | :------: | :----------------: |
+| Cortex-A55 | ARM64 | 1.8 | 13.566583 | 7.537 |
+| Cortex-A72 | ARM64 | 1.5 | 11.664233 | 7.776 |
+| Cortex-A76 | ARM64 | 2.4 | 38.691399 | 16.121 |
+| Cortex-A77 | ARM64 | 2.6 | 41.318005 | 15.892 |
+| Cortex-A78 | ARM64 | 2.8 | 68.569542 | 24.489 |
+| Apple M1 | ARM64 | 3.2 | 102.424 | 32.008 |
+
 ### Acknowledgement
 OpenCL in MegPeak referenced the [clpeak](https://github.com/krrishnarraj/clpeak) project
 
