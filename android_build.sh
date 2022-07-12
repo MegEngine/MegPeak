@@ -48,6 +48,13 @@ fi
 SRC_DIR=$($READLINK -f "`dirname $0`/")
 
 function cmake_build() {
+    if [ $NDK_ROOT ];then
+        echo "NDK_ROOT: $NDK_ROOT"
+    else
+        echo "Please define env var NDK_ROOT first"
+        exit 1
+    fi
+
     BUILD_DIR=$SRC_DIR/build-${ARCH}/
     BUILD_ABI=$1
     BUILD_NATIVE_LEVEL=$2
