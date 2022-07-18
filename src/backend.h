@@ -14,6 +14,10 @@
 #include <stdlib.h>
 #include <cstddef>
 
+#ifdef MEGPEAK_USE_CPUINFO
+#include "cpuinfo.h"
+#endif // MEGPEAK_USE_CPUINFO
+
 namespace megpeak {
 
 class Backend {
@@ -29,7 +33,18 @@ protected:
 
 class CPUBackend : public Backend {
 public:
-    CPUBackend(size_t id) : Backend(id) {}
+    CPUBackend(size_t id) : Backend(id)
+    {
+#ifdef MEGPEAK_USE_CPUINFO
+        cpuinfo_initialize();
+#endif // MEGPEAK_USE_CPUINFO
+    }
+    ~CPUBackend()
+    {
+#ifdef MEGPEAK_USE_CPUINFO
+        cpuinfo_deinitialize();
+#endif // MEGPEAK_USE_CPUINFO
+    }
     void execute() override;
 };
 
