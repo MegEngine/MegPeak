@@ -60,14 +60,17 @@ If you compile the project and get the megpeak, next you can copy or set the meg
     ```
 
 ### GFlops test results for different CPUs
-| CPU | Architecture | Frequence(GHz) | GFlops | GFlops/Frequence |
-| :---: | :------------: | :--------------: | :------: | :----------------: |
-| Cortex-A55 | ARM64 | 1.8 | 13.566583 | 7.537 |
-| Cortex-A72 | ARM64 | 1.5 | 11.664233 | 7.776 |
-| Cortex-A76 | ARM64 | 2.4 | 38.691399 | 16.121 |
-| Cortex-A77 | ARM64 | 2.6 | 41.318005 | 15.892 |
-| Cortex-A78 | ARM64 | 2.8 | 68.569542 | 24.489 |
-| Apple M1 | ARM64 | 3.2 | 102.424 | 32.008 |
+| Platform | CPU | Architecture | Frequence(GHz) | GFLOPS | FLOPS/Cycle |
+| :------: | :---: | :------------: | :--------------: | :------: | :----------------: |
+| / | Cortex-A7 | ARMV7 | 1.0 | 1.902002 | 1.9020 |
+| / | Cortex-A53 | ARM64 | 1.3 | 9.844987 | 7.5731 |
+| Xiaomi Mi 9 Core 0 | Cortex-A55 | ARM64 | 1.8 | 13.566583 | 7.537 |
+| raspberry-pi 4b | Cortex-A72 | ARM64 | 1.5 | 11.664233 | 7.776 |
+| Xiaomi Mi 9 Core 6 | Cortex-A76 | ARM64 | 2.42 | 38.691399 | 15.988 |
+| Realme X7 Pro Core 4 | Cortex-A77 | ARM64 | 2.6 | 41.318005 | 15.892 |
+| Xiaomi Mi 11 Core 6 | Cortex-A78 | ARM64 | 2.4 | 33.781448 | 14.076 |
+| Apple Mac | Apple M1 | ARM64 | 3.2 | 102.424 | 32.008 |
+More details see [wiki](https://github.com/MegEngine/MegPeak/wiki/Common-Arm-processor-Peak-performance)
 
 ### Acknowledgement
 OpenCL in MegPeak referenced the [clpeak](https://github.com/krrishnarraj/clpeak) project
