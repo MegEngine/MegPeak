@@ -4,6 +4,7 @@ set -e
 BUILD_TYPE=Release
 ARCH=arm64-v8a
 OPENCL=OFF
+CPUINFO=OFF
 ARCH_LIST="arm64-v8a armeabi-v7a"
 
 READLINK=readlink
@@ -15,12 +16,13 @@ function usage() {
     echo "available args detail:"
     echo "-m : machine arch(arm64-v8a, armeabi-v7a)"
     echo "-l : enable build with opencl"
+    echo "-c : enable build with cpuinfo"
     echo "-h : show usage"
     echo "example: $0 -m armeabi-v7a"
     exit -1
 }
 
-while getopts "lhm:" arg
+while getopts "lchm:" arg
 do
     case $arg in
         m)
@@ -30,6 +32,10 @@ do
         l)
             echo "build with opencl"
             OPENCL=ON
+            ;;
+        c)
+            echo "build with cpuinfo"
+            CPUINFO=ON
             ;;
         h)
             echo "show usage"
@@ -74,7 +80,8 @@ function cmake_build() {
         -DANDROID_NDK="$NDK_ROOT" \
         -DANDROID_ABI=$BUILD_ABI \
         -DANDROID_NATIVE_API_LEVEL=$BUILD_NATIVE_LEVEL \
-        -DMEGPEAK_ENABLE_OPENCL=${OPENCL}
+        -DMEGPEAK_ENABLE_OPENCL=${OPENCL} \
+        -DMEGPEAK_USE_CPUINFO=${CPUINFO}
 
     ninja ${Target}
 }

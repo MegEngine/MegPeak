@@ -340,16 +340,14 @@ const char* uarch_to_string(enum cpuinfo_uarch uarch) {
 
 void print_cpu_info(size_t dev_id, size_t cpu_count)
 {
-    printf("there are %zu cores, currently use core %zu", cpu_count, dev_id);
-    
+    printf("there are %zu cores, currently use core id :%zu\n", cpu_count, dev_id);
 #ifdef MEGPEAK_USE_CPUINFO
     const cpuinfo_core* core = cpuinfo_get_current_core();
     const char* vendor_string = vendor_to_string(core->vendor);
     const char* uarch_string = uarch_to_string(core->uarch);
 
-    printf("Core=%s, uArch=%s, processor System ID=%d\n",
-        vendor_string, uarch_string, core->processor_start
-    );
+    printf("Vendor is: %s, uArch: %s, frequency: %ldHz\n", vendor_string,
+           uarch_string, core->frequency);
 #endif // MEGPEAK_USE_CPUINFO
     printf("\n");
 }
