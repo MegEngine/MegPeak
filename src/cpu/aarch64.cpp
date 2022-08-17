@@ -18,12 +18,11 @@
     static int func##_throughput() {                                        \
         asm volatile(                                                       \
         UNROLL_CALL(20, eor)                                                \
-        "mov x0, #0\n"                                                      \
+        "mov x0, %x[RUNS]\n"                                                \
         "1:\n"                                                              \
         UNROLL_CALL(20, cb)                                                 \
-        "add  x0, x0, #1 \n"                                                \
-        "cmp x0, %x[RUNS] \n"                                               \
-        "blt 1b \n"                                                         \
+        "subs  x0, x0, #1 \n"                                               \
+        "bne 1b \n"                                                         \
         :                                                                   \
         : [RUNS] "r"(megpeak::RUNS)                                         \
         : "cc", "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", \
