@@ -9,6 +9,8 @@ message(${CMAKE_CURRENT_SOURCE_DIR})
 
 option(MEGPEAK_ENABLE_OPENCL "Build MegPeak with OpenCL." OFF)
 option(MEGPEAK_USE_CPUINFO   "Use cpuinfo library"        OFF)
+option(MEGPEAK_ENABLE_DOT       "Use arm dotprod instruction."   OFF)
+option(MEGPEAK_ENABLE_MMA       "Use arm mma instruction"        OFF)
 
 if(CMAKE_TOOLCHAIN_FILE)
     message(STATUS "cross compile MegPeak.")
@@ -53,6 +55,16 @@ elseif(${MGEPEAK_ARCH} STREQUAL "x86")
     set(CMAKE_CXX_FLAGS " -DMEGPEAK_X86=1 ${CMAKE_CXX_FLAGS}")
 else()
     message(FATAL_ERROR "Unknown MEGPEAK_ARCH ${MEGPEAK_ARCH}.")
+endif()
+
+
+if(MEGPEAK_ENABLE_DOT)
+    message(STATUS "Enable dotprod feature in armv8.2-a")
+    set(CMAKE_CXX_FLAGS " -D__ARM_FEATURE_DOTPROD=1 -march=armv8.2-a+dotprod ${CMAKE_CXX_FLAGS}")
+endif()
+if(MEGPEAK_ENABLE_MMA)
+    message(STATUS "Enable smmla feature in armv8.6-a")
+    set(CMAKE_CXX_FLAGS " -D__ARM_FEATURE_MATMUL_INT8 ${CMAKE_CXX_FLAGS} -march=armv8.6-a+i8mm ")
 endif()
 
 if(MEGPEAK_ENABLE_OPENCL)

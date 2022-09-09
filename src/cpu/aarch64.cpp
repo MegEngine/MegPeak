@@ -212,6 +212,14 @@ LATENCY(cb, sdot)
 
 #endif
 
+#if defined(__ARM_FEATURE_MATMUL_INT8)
+#define cb(i) "smmla  v" #i ".4s, v" #i ".16b, v" #i ".16b\n"
+THROUGHPUT(cb, smmla)
+#undef cb
+#define cb(i) "smmla v0.4s, v0.16b, v0.16b\n"
+LATENCY(cb, smmla)
+#undef cb
+#endif
 
 void megpeak::aarch64() {
     //! warmup
@@ -222,6 +230,9 @@ void megpeak::aarch64() {
     benchmark(mla_throughput, mla_latency, "mla", 8);
     benchmark(fmul_throughput, fmul_latency, "fmul");
     benchmark(mul_throughput, mul_latency, "mul");
+#if defined(__ARM_FEATURE_MATMUL_INT8)
+    benchmark(smmla_throughput, smmla_latency, "smmla", 64);
+#endif
     benchmark(addp_throughput, addp_latency, "addp");
 #if __ARM_FEATURE_DOTPROD
     benchmark(sdot_throughput, sdot_latency, "sdot", 32);
