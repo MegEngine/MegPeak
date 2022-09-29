@@ -213,10 +213,10 @@ LATENCY(cb, sdot)
 #endif
 
 #if defined(__ARM_FEATURE_MATMUL_INT8)
-#define cb(i) "smmla  v" #i ".4s, v" #i ".16b, v" #i ".16b\n"
+#define cb(i) SMMLA(i, i, i)
 THROUGHPUT(cb, smmla)
 #undef cb
-#define cb(i) "smmla v0.4s, v0.16b, v0.16b\n"
+#define cb(i) SMMLA(0, 0, 0)
 LATENCY(cb, smmla)
 #undef cb
 #endif
