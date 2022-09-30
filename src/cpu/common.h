@@ -129,6 +129,49 @@ inline static void benchmark(std::function<int()> throughtput_func,
     UNROLL_RAW##step##_START6(cb, 0, ##v)
 #define UNROLL_CALL_START6(step, cb, v...) UNROLL_CALL0_START6(step, cb, ##v)
 
+// dec to bin
+#define _DEC_BIN_0 "00000"
+#define _DEC_BIN_1 "00001"
+#define _DEC_BIN_2 "00010"
+#define _DEC_BIN_3 "00011"
+#define _DEC_BIN_4 "00100"
+#define _DEC_BIN_5 "00101"
+#define _DEC_BIN_6 "00110"
+#define _DEC_BIN_7 "00111"
+#define _DEC_BIN_8 "01000"
+#define _DEC_BIN_9 "01001"
+#define _DEC_BIN_10 "01010"
+#define _DEC_BIN_11 "01011"
+#define _DEC_BIN_12 "01100"
+#define _DEC_BIN_13 "01101"
+#define _DEC_BIN_14 "01110"
+#define _DEC_BIN_15 "01111"
+#define _DEC_BIN_16 "10000"
+#define _DEC_BIN_17 "10001"
+#define _DEC_BIN_18 "10010"
+#define _DEC_BIN_19 "10011"
+#define _DEC_BIN_20 "10100"
+#define _DEC_BIN_21 "10101"
+#define _DEC_BIN_22 "10110"
+#define _DEC_BIN_23 "10111"
+#define _DEC_BIN_24 "11000"
+#define _DEC_BIN_25 "11001"
+#define _DEC_BIN_26 "11010"
+#define _DEC_BIN_27 "11011"
+#define _DEC_BIN_28 "11100"
+#define _DEC_BIN_29 "11101"
+#define _DEC_BIN_30 "11110"
+#define _DEC_BIN_31 "11111"
+#define DEC_TO_BIN(val) _DEC_BIN_##val
+
+// new instruction op code & flag
+#define smmla_code "01001110100"
+#define smmla_flag "101001"
+
+#define AARCH64_BINARY_INST(op, dst, src1, src2) ".inst 0b" op##_code DEC_TO_BIN(dst) op##_flag DEC_TO_BIN(src1) DEC_TO_BIN(src2) "\n"
+// new instruction define
+#define SMMLA(vd, vn, vm) AARCH64_BINARY_INST(smmla, vm, vn, vd)
+
 void aarch64();
 void armv7();
 void x86_avx();

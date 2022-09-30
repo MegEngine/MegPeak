@@ -64,7 +64,7 @@ if(MEGPEAK_ENABLE_DOT)
 endif()
 if(MEGPEAK_ENABLE_MMA)
     message(STATUS "Enable smmla feature in armv8.6-a")
-    set(CMAKE_CXX_FLAGS " -D__ARM_FEATURE_MATMUL_INT8 ${CMAKE_CXX_FLAGS} -march=armv8.6-a+i8mm ")
+    set(CMAKE_CXX_FLAGS " -D__ARM_FEATURE_MATMUL_INT8 ${CMAKE_CXX_FLAGS}")
 endif()
 
 if(MEGPEAK_ENABLE_OPENCL)
