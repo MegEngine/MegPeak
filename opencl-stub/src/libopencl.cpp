@@ -15,8 +15,7 @@
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 #if defined(__APPLE__) || defined(__MACOSX)
-static const char* default_so_paths[] = {
-        "/System/Library/Frameworks/OpenCL.framework/OpenCL", "libOpenCL.so"};
+static const char* default_so_paths[] = { "/System/Library/Frameworks/OpenCL.framework/OpenCL", "libOpenCL.so" };
 #elif defined(__ANDROID__)
 static const char* default_so_paths[] = {
 #if defined(__aarch64__)
@@ -221,8 +220,21 @@ public:
 #undef _WRAPLIB_CALLBACK
 #undef _WRAPLIB_API_CALL
 
+static bool is_valid_path_for_dlopen(const char* path)
+{
+#if __APPLE__
+  if (strstr(path, ".framework") != NULL)
+  {
+    return true;
+  }
+  return access(path, F_OK);
+#else
+    return access(path, F_OK);
+#endif
+}
+
 static bool open_shared_lib(const char* path, void*& handle) {
-    if (!access(path, F_OK)) {
+    if (is_valid_path_for_dlopen(path)) {
         handle = dlopen(path, RTLD_LAZY);
         if (handle)
             return true;
