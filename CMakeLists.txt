@@ -60,7 +60,7 @@ endif()
 
 if(MEGPEAK_ENABLE_DOT)
     message(STATUS "Enable dotprod feature in armv8.2-a")
-    set(CMAKE_CXX_FLAGS " -D__ARM_FEATURE_DOTPROD=1 -march=armv8.2-a+dotprod ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS " -D__ARM_FEATURE_DOTPROD=1 ${CMAKE_CXX_FLAGS}")
 endif()
 if(MEGPEAK_ENABLE_MMA)
     message(STATUS "Enable smmla feature in armv8.6-a")

@@ -203,10 +203,10 @@ LATENCY(cb, mla)
 
 #if __ARM_FEATURE_DOTPROD
 
-#define cb(i) "sdot v" #i ".4s, v" #i ".16b, v" #i ".16b\n"
+#define cb(i) SDOT(i, i, i)
 THROUGHPUT(cb, sdot)
 #undef cb
-#define cb(i) "sdot v0.4s, v0.16b, v0.16b\n"
+#define cb(i) SDOT(0, 0, 0)
 LATENCY(cb, sdot)
 #undef cb
 
@@ -218,6 +218,13 @@ THROUGHPUT(cb, smmla)
 #undef cb
 #define cb(i) SMMLA(0, 0, 0)
 LATENCY(cb, smmla)
+#undef cb
+
+#define cb(i) BFMMLA(i, i, i)
+THROUGHPUT(cb, bfmmla)
+#undef cb
+#define cb(i) BFMMLA(0, 0, 0)
+LATENCY(cb, bfmmla)
 #undef cb
 #endif
 
@@ -232,6 +239,7 @@ void megpeak::aarch64() {
     benchmark(mul_throughput, mul_latency, "mul");
 #if defined(__ARM_FEATURE_MATMUL_INT8)
     benchmark(smmla_throughput, smmla_latency, "smmla", 64);
+    benchmark(bfmmla_throughput, bfmmla_latency, "bfmmla", 64);
 #endif
     benchmark(addp_throughput, addp_latency, "addp");
 #if __ARM_FEATURE_DOTPROD
