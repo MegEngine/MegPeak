@@ -165,12 +165,18 @@ inline static void benchmark(std::function<int()> throughtput_func,
 #define DEC_TO_BIN(val) _DEC_BIN_##val
 
 // new instruction op code & flag
+#define sdot_code "01001111100" // code[1] = 0 if compute 2s/8b; code[-1] = 1 if offset = 1/3
+#define sdot_flag "111000"  // flag[4] = 1 if offset = 2/3
 #define smmla_code "01001110100"
 #define smmla_flag "101001"
+#define bfmmla_code "01101110010"
+#define bfmmla_flag "111011"
 
 #define AARCH64_BINARY_INST(op, dst, src1, src2) ".inst 0b" op##_code DEC_TO_BIN(dst) op##_flag DEC_TO_BIN(src1) DEC_TO_BIN(src2) "\n"
 // new instruction define
+#define SDOT(vd, vn, vm) AARCH64_BINARY_INST(sdot, vm, vn, vd)
 #define SMMLA(vd, vn, vm) AARCH64_BINARY_INST(smmla, vm, vn, vd)
+#define BFMMLA(vd, vn, vm) AARCH64_BINARY_INST(bfmmla, vm, vn, vd)
 
 void aarch64();
 void armv7();
