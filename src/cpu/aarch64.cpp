@@ -239,7 +239,7 @@ void megpeak::aarch64() {
     benchmark(mul_throughput, mul_latency, "mul");
 #if defined(__ARM_FEATURE_MATMUL_INT8)
     benchmark(smmla_throughput, smmla_latency, "smmla", 64);
-    benchmark(bfmmla_throughput, bfmmla_latency, "bfmmla", 64);
+    benchmark(bfmmla_throughput, bfmmla_latency, "bfmmla", 32);
 #endif
     benchmark(addp_throughput, addp_latency, "addp");
 #if __ARM_FEATURE_DOTPROD
