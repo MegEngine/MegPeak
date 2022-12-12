@@ -5,6 +5,9 @@ BUILD_TYPE=Release
 ARCH=arm64-v8a
 OPENCL=OFF
 ALL_BENCHMARK=OFF
+CPUINFO=OFF
+DOT=OFF
+MMA=OFF
 ARCH_LIST="arm64-v8a armeabi-v7a"
 
 READLINK=readlink
@@ -15,14 +18,17 @@ function usage() {
     echo "$0 args1 .."
     echo "available args detail:"
     echo "-m : machine arch(arm64-v8a, armeabi-v7a)"
+    echo "-d : enable build with dotprod"
+    echo "-a : enable build with mma"
     echo "-l : enable build with opencl"
     echo "-a : enable all benchmark"
+    echo "-c : enable build with cpuinfo"
     echo "-h : show usage"
     echo "example: $0 -m armeabi-v7a"
     exit -1
 }
 
-while getopts "lhm:a" arg
+while getopts "adlchm:a" arg
 do
     case $arg in
         m)
@@ -32,6 +38,18 @@ do
         l)
             echo "build with opencl"
             OPENCL=ON
+            ;;
+        c)
+            echo "build with cpuinfo"
+            CPUINFO=ON
+            ;;
+        a)
+            echo "build with mma"
+            MMA=ON
+            ;;
+        d)
+            echo "build with dotprod"
+            DOT=ON
             ;;
         h)
             echo "show usage"
@@ -54,6 +72,13 @@ fi
 SRC_DIR=$($READLINK -f "`dirname $0`/")
 
 function cmake_build() {
+    if [ $NDK_ROOT ];then
+        echo "NDK_ROOT: $NDK_ROOT"
+    else
+        echo "Please define env var NDK_ROOT first"
+        exit 1
+    fi
+
     BUILD_DIR=$SRC_DIR/build-${ARCH}/
     BUILD_ABI=$1
     BUILD_NATIVE_LEVEL=$2
@@ -74,7 +99,10 @@ function cmake_build() {
         -DANDROID_ABI=$BUILD_ABI \
         -DANDROID_NATIVE_API_LEVEL=$BUILD_NATIVE_LEVEL \
         -DMEGPEAK_ENABLE_OPENCL=${OPENCL} \
-        -DMEGPEAK_ENABLE_ALL_BENCHMARK=${ALL_BENCHMARK}
+        -DMEGPEAK_ENABLE_ALL_BENCHMARK=${ALL_BENCHMARK} \
+        -DMEGPEAK_ENABLE_DOT=${DOT} \
+        -DMEGPEAK_ENABLE_MMA=${MMA} \
+        -DMEGPEAK_USE_CPUINFO=${CPUINFO}
 
     ninja ${Target}
 }
