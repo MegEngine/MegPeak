@@ -37,6 +37,10 @@ MegPeak only support [CMake](https://cmake.org/) build system and require CMake 
         ```bash
         ./android_build.sh -l -m [arm64-v8a, armeabi-v7a]
         ```
+    * build with all benchmark
+        ```bash
+        ./android_build.sh -a -m [arm64-v8a, armeabi-v7a]
+        ```
 * if you target test OS is linux，if you want to enable OpenCL add `-DMEGPEAK_ENABLE_OPENCL=ON` to cmake command
     ```bash
     mkdir -p build && cd build

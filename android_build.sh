@@ -4,6 +4,7 @@ set -e
 BUILD_TYPE=Release
 ARCH=arm64-v8a
 OPENCL=OFF
+ALL_BENCHMARK=OFF
 CPUINFO=OFF
 DOT=OFF
 MMA=OFF
@@ -20,13 +21,14 @@ function usage() {
     echo "-d : enable build with dotprod"
     echo "-a : enable build with mma"
     echo "-l : enable build with opencl"
+    echo "-a : enable all benchmark"
     echo "-c : enable build with cpuinfo"
     echo "-h : show usage"
     echo "example: $0 -m armeabi-v7a"
     exit -1
 }
 
-while getopts "adlchm:" arg
+while getopts "adlchm:a" arg
 do
     case $arg in
         m)
@@ -53,6 +55,10 @@ do
             echo "show usage"
             usage
             exit 0
+            ;;
+        a)
+            echo "build with all benchmark"
+            ALL_BENCHMARK=ON
             ;;
     esac
 done
@@ -93,6 +99,7 @@ function cmake_build() {
         -DANDROID_ABI=$BUILD_ABI \
         -DANDROID_NATIVE_API_LEVEL=$BUILD_NATIVE_LEVEL \
         -DMEGPEAK_ENABLE_OPENCL=${OPENCL} \
+        -DMEGPEAK_ENABLE_ALL_BENCHMARK=${ALL_BENCHMARK} \
         -DMEGPEAK_ENABLE_DOT=${DOT} \
         -DMEGPEAK_ENABLE_MMA=${MMA} \
         -DMEGPEAK_USE_CPUINFO=${CPUINFO}
