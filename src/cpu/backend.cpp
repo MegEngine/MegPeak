@@ -37,8 +37,8 @@ using namespace megpeak;
 namespace {
 uint8_t bandwidth() {
     constexpr size_t NR_WARMUP = 5, NR_RUNS = 40, NR_BYTES = 1024 * 1024 * 100;
-    std::unique_ptr<uint8_t[]> src{new uint8_t[NR_BYTES]};
-    std::unique_ptr<uint8_t[]> dst{new uint8_t[NR_BYTES]};
+    std::unique_ptr<uint8_t[]> src{new uint8_t[NR_BYTES]{}};
+    std::unique_ptr<uint8_t[]> dst{new uint8_t[NR_BYTES]{}};
 
     volatile uint8_t res = 0;
     for (size_t i = 0; i < NR_WARMUP; i++) {
@@ -57,15 +57,16 @@ uint8_t bandwidth() {
     return res;
 }
 
-void cpu_set_affinity(int dev_id) {
+int cpu_set_affinity(int dev_id) {
 #if defined(__APPLE__)
 #pragma message("set_cpu_affinity not enabled on apple platform")
-    printf("cpu core affinity is not usable in apple os\n");
+  printf("WARNING: cpu core affinity is not usable in apple os\n");
+  return 0;
 #else
     cpu_set_t cst;
     CPU_ZERO(&cst);
     CPU_SET(dev_id, &cst);
-    sched_setaffinity(0, sizeof(cst), &cst);
+    return sched_setaffinity(0, sizeof(cst), &cst);
 #endif
 }
 
@@ -356,7 +357,10 @@ void print_cpu_info(size_t dev_id, size_t cpu_count)
 
 void CPUBackend::execute() {
     size_t cpu_count = get_cpu_count();
-    cpu_set_affinity(m_dev_id);
+    if (cpu_set_affinity(m_dev_id) == -1) {
+      fprintf(stderr, "ERROR: Set CPU core affinity(%zu) failed.\n", m_dev_id);
+      exit(1);
+    }
     print_cpu_info(m_dev_id, cpu_count);
     bandwidth();
     aarch64();

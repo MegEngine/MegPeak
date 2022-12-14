@@ -21,14 +21,14 @@ function usage() {
     echo "-d : enable build with dotprod"
     echo "-a : enable build with mma"
     echo "-l : enable build with opencl"
-    echo "-a : enable all benchmark"
+    echo "-t : enable total benchmark"
     echo "-c : enable build with cpuinfo"
     echo "-h : show usage"
     echo "example: $0 -m armeabi-v7a"
     exit -1
 }
 
-while getopts "adlchm:a" arg
+while getopts "adlchm:t" arg
 do
     case $arg in
         m)
@@ -56,8 +56,8 @@ do
             usage
             exit 0
             ;;
-        a)
-            echo "build with all benchmark"
+        t)
+            echo "build with total benchmark"
             ALL_BENCHMARK=ON
             ;;
     esac
