@@ -16,8 +16,12 @@
 #include <cmath>
 #include <functional>
 #include <iostream>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string>
+
+#ifndef __APPLE__
+#include <malloc.h>
+#endif
 
 namespace megpeak {
 constexpr static uint32_t RUNS = 800000;
@@ -206,8 +210,16 @@ namespace {
  */
 static inline void* get_mem_align64() {
     static void* mem_algn64 = nullptr;
+    size_t alignment = 64;
+    size_t size = 2048;
     if (mem_algn64 == nullptr) {
-        mem_algn64 = memalign(64, 2048);
+#ifdef WIN32
+        mem_algn64 = _aligned_malloc(size, alignment);
+#elif defined(__ANDROID__) || defined(ANDROID)
+        mem_algn64 = memalign(alignment, size);
+#else
+        posix_memalign(&mem_algn64, alignment, size);
+#endif
     }
     return mem_algn64;
 }

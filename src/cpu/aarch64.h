@@ -9,7 +9,6 @@
  * or implied.
  */
 #pragma once
-#include <malloc.h>
 #include "src/cpu/common.h"
 #include "stdlib.h"
 

@@ -10,7 +10,7 @@
  */
 
 #pragma once
-#include <malloc.h>
+#include <stdlib.h>
 #include "src/cpu/common.h"
 
 #if MEGPEAK_ARMV7
