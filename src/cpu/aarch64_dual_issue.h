@@ -11,7 +11,6 @@
 #pragma once
 #if MEGPEAK_AARCH64
 #include <arm_neon.h>
-#include <malloc.h>
 #include "src/cpu/common.h"
 #include "stdlib.h"
 
