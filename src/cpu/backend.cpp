@@ -367,6 +367,7 @@ void CPUBackend::execute() {
     armv7();
     x86_avx();
     x86_sse();
+    loongarch_lasx();
 }
 
 // vim: syntax=cpp.doxygen
