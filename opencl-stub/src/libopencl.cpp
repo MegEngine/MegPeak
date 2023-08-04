@@ -51,6 +51,7 @@ static const char* default_so_paths[] = {
         "/usr/lib/libOpenCL.so",
 #else
         "/usr/lib/libOpenCL.so",
+        "/lib/aarch64-linux-gnu/libmali.so",
         "/usr/lib32/libOpenCL.so",
         "/usr/local/lib/libOpenCL.so",
         "/usr/local/lib/libpocl.so",
@@ -234,7 +235,7 @@ static bool is_valid_path_for_dlopen(const char* path)
 }
 
 static bool open_shared_lib(const char* path, void*& handle) {
-    if (is_valid_path_for_dlopen(path)) {
+    if (!is_valid_path_for_dlopen(path)) {
         handle = dlopen(path, RTLD_LAZY);
         if (handle)
             return true;
