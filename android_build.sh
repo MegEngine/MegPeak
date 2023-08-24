@@ -8,6 +8,7 @@ ALL_BENCHMARK=OFF
 CPUINFO=OFF
 DOT=OFF
 MMA=OFF
+BFMMA=OFF
 ARCH_LIST="arm64-v8a armeabi-v7a"
 
 READLINK=readlink
@@ -20,6 +21,7 @@ function usage() {
     echo "-m : machine arch(arm64-v8a, armeabi-v7a)"
     echo "-d : enable build with dotprod"
     echo "-a : enable build with mma"
+    echo "-f : enable build with bfmma"
     echo "-l : enable build with opencl"
     echo "-t : enable total benchmark"
     echo "-c : enable build with cpuinfo"
@@ -28,7 +30,7 @@ function usage() {
     exit -1
 }
 
-while getopts "adlchm:t" arg
+while getopts "adlcfhm:t" arg
 do
     case $arg in
         m)
@@ -50,6 +52,10 @@ do
         d)
             echo "build with dotprod"
             DOT=ON
+            ;;
+        f)
+            echo "build with bfmmla"
+            BFMMA=ON
             ;;
         h)
             echo "show usage"
@@ -102,6 +108,7 @@ function cmake_build() {
         -DMEGPEAK_ENABLE_ALL_BENCHMARK=${ALL_BENCHMARK} \
         -DMEGPEAK_ENABLE_DOT=${DOT} \
         -DMEGPEAK_ENABLE_MMA=${MMA} \
+        -DMEGPEAK_ENABLE_BFMMA=${BFMMA} \
         -DMEGPEAK_USE_CPUINFO=${CPUINFO}
 
     ninja ${Target}

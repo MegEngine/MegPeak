@@ -324,6 +324,27 @@ THROUGHPUT(cb, sdot)
 LATENCY(cb, sdot)
 #undef cb
 
+#endif
+
+#ifdef MEGPEAK_ENABLE_MMA
+
+#define cb(i) SMMLA(i, i, i)
+THROUGHPUT(cb, smmla)
+#undef cb
+#define cb(i) SMMLA(0, 0, 0)
+LATENCY(cb, smmla)
+#undef cb
+
+#endif
+
+#ifdef MEGPEAK_ENABLE_BFMMA
+
+#define cb(i) BFMMLA(i, i, i)
+THROUGHPUT(cb, bfmmla)
+#undef cb
+#define cb(i) BFMMLA(0, 0, 0)
+LATENCY(cb, bfmmla)
+#undef cb
 
 #endif
 
