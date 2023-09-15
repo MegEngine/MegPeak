@@ -183,19 +183,26 @@ inline static void benchmark(std::function<int()> throughtput_func,
 #define _DEC_BIN_31 "11111"
 #define DEC_TO_BIN(val) _DEC_BIN_##val
 
+// clang-format off
 // new instruction op code & flag
-#define sdot_code "01001111100" // code[1] = 0 if compute 2s/8b; code[-1] = 1 if offset = 1/3
-#define sdot_flag "111000"  // flag[4] = 1 if offset = 2/3
+//! ref: https://developer.arm.com/documentation/ddi0596/2021-03/SIMD-FP-Instructions/SDOT--vector---Dot-Product-signed-arithmetic--vector--?lang=en
+#define sdot_code "01001110100" // code[1] = 0 if compute 2s/8b; code[-1] = 1 if offset = 1/3
+#define sdot_flag "100101" // flag[4] = 1 if offset = 2/3
+//! ref: https://developer.arm.com/documentation/ddi0596/2021-03/SIMD-FP-Instructions/SMMLA--vector---Signed-8-bit-integer-matrix-multiply-accumulate--vector--?lang=en
 #define smmla_code "01001110100"
 #define smmla_flag "101001"
+//! ref: https://developer.arm.com/documentation/ddi0596/2021-03/SIMD-FP-Instructions/BFMMLA--BFloat16-floating-point-matrix-multiply-accumulate-into-2x2-matrix-?lang=en
 #define bfmmla_code "01101110010"
 #define bfmmla_flag "111011"
+// clang-foramt on
 
-#define AARCH64_BINARY_INST(op, dst, src1, src2) ".inst 0b" op##_code DEC_TO_BIN(dst) op##_flag DEC_TO_BIN(src1) DEC_TO_BIN(src2) "\n"
+#define AARCH64_BINARY_INST(op, dst, src1, src2)                               \
+  ".inst 0b" op##_code DEC_TO_BIN(src2) op##_flag DEC_TO_BIN(src1)             \
+      DEC_TO_BIN(dst) "\n"
 // new instruction define
-#define SDOT(vd, vn, vm) AARCH64_BINARY_INST(sdot, vm, vn, vd)
-#define SMMLA(vd, vn, vm) AARCH64_BINARY_INST(smmla, vm, vn, vd)
-#define BFMMLA(vd, vn, vm) AARCH64_BINARY_INST(bfmmla, vm, vn, vd)
+#define SDOT(vd, vn, vm) AARCH64_BINARY_INST(sdot, vd, vn, vm)
+#define SMMLA(vd, vn, vm) AARCH64_BINARY_INST(smmla, vd, vn, vm)
+#define BFMMLA(vd, vn, vm) AARCH64_BINARY_INST(bfmmla, vd, vn, vm)
 
 void aarch64();
 void armv7();

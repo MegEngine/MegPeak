@@ -43,6 +43,12 @@ void megpeak::aarch64() {
 #if __ARM_FEATURE_DOTPROD
   benchmark(sdot_throughput, sdot_latency, "sdot", 32);
 #endif
+#ifdef MEGPEAK_ENABLE_MMA
+  benchmark(smmla_throughput, smmla_latency, "smmla", 64);
+#endif
+#ifdef MEGPEAK_ENABLE_BFMMA
+  benchmark(bfmmla_throughput, bfmmla_latency, "bfmmla", 32);
+#endif
   benchmark(sadalp_throughput, sadalp_latency, "sadalp");
   benchmark(add_throughput, add_latency, "add");
   benchmark(fadd_throughput, fadd_latency, "fadd");
